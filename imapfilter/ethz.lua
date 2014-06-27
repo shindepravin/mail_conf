@@ -1,5 +1,5 @@
 ----------------------------------------------
--- This is the configuration file for my school
+-- This is the configuration file for my ETHZ
 -- account.  I'm separating out my configuration
 -- for each account so I can call instances of
 -- imapfilter for each account individually.
@@ -24,15 +24,15 @@ options.info = true
 
 -- Accounts
 
-status, myuser = pipe_from('~/.mail_config/lib/imapfilter-helper.py mail.school.edu user')
+status, myuser = pipe_from('~/.mail_config/lib/imapfilter-helper.py mail.ethz.ch user')
 
 myuser = trim(myuser)
 
-status, mypass = pipe_from('~/.mail_config/lib/imapfilter-helper.py mail.school.edu password')
+status, mypass = pipe_from('~/.mail_config/lib/imapfilter-helper.py mail.ethz.ch password')
 mypass = trim(mypass)
 
 EECS = IMAP {
-	server = 'mail.school.edu',
+	server = 'mail.ethz.ch',
 	username = myuser,
 	password = mypass,
 	ssl = 'ssl3'
@@ -60,8 +60,8 @@ EECS.INBOX:mark_seen(msgs)
 --------------------------------------------------
 -- Move Math 501 emails to their own folder.
 -- Match by subject containing (upper or lower case, with or without spaces "Math 501"
--- or beging to or from prof@school.edu or prof@math.school.edu
+-- or beging to or from prof@ethz.ch or prof@math.ethz.ch
 msgs = recent:match_subject('\\b[Mm][Aa][Tt][Hh]\\W?501') +
-       EECS.INBOX:contain_from('prof@(math.)?school.edu') +
-       EECS.INBOX:contain_to('prof@(math.)?school.edu')
+       EECS.INBOX:contain_from('prof@(math.)?ethz.ch') +
+       EECS.INBOX:contain_to('prof@(math.)?ethz.ch')
 msgs:move_messages(EECS['math501'])

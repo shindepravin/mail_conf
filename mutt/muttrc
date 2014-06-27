@@ -2,10 +2,14 @@
 
 set folder = ~/.mail
 source ~/.mail_config/mutt/muttmailboxes
-set spoolfile = +"school/inbox"
+set spoolfile = +"ethz/.myinbox"
+
+set sort=threads
+set sort_aux=last-date-received
 
 source ~/.mail_config/mutt/common
-source ~/.mail_config/mutt/colors
+#source ~/.mail_config/mutt/colors
+
 # Not using alias to store addresses now,
 # using lbdb
 #set alias_file=~/.mail_config/mutt/aliases
@@ -15,11 +19,18 @@ source ~/.mail_config/mutt/pgp
 
 # if we are in any directory starting with the following, pull
 # specific settings from somewhere else
-folder-hook +school/.* "source ~/.mail_config/mutt/school"
+folder-hook +ethz/.* "source ~/.mail_config/mutt/ethz"
 folder-hook +gmail/.* "source ~/.mail_config/mutt/gmail"
 
 # Mutt will mark emails from these addresses as having been sent by you
-alternates username@school.edu username@gmail.com me@other_email.com
+alternates shindep@inf.ethz.ch pravin@inf.ethz.ch shindepravin@gmail.com
+
+set query_command="abook --mutt-query '%s'"
+#macro pager A |'abook --add-email'\n
+
+macro index,pager A "<pipe-message>abook --add-email<return>" "add the sender address to abook"
+#macro index,pager A "<pipe-message>abook --add-email-quiet<return>" "add the sender address to abook"
 
 # All the macros we have defined
 source ~/.mail_config/mutt/macros
+

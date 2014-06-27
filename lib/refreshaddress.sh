@@ -7,7 +7,7 @@
 # http://dev.gentoo.org/~tomka/mail.html
 
 # Only capture those addresses that I send mail to
-accounts=(~/.mail/school/sent/cur ~/.mail/gmail/sent/cur)
+accounts=(~/.mail/ethz/.Sent/cur ~/.mail/gmail/.sent/cur)
 
 function parsemail {
 	cat $1 | lbdb-fetchaddr

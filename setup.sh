@@ -42,7 +42,7 @@ function notes {
 }
 
 # Make the required mail directories
-mkdir -p $HOME/.mail/school
+mkdir -p $HOME/.mail/ethz
 mkdir -p $HOME/.mail/gmail
 
 # We need to make $HOME/.mairix too
@@ -66,6 +66,7 @@ chmod 600 $HOME/.mail_config/msmtprc
 rm -rf $HOME/bin/export_x_info.sh $HOME/bin/pullmail.sh
 ln -s $HOME/.mail_config/lib/export_x_info.sh $HOME/bin/export_x_info.sh
 ln -s $HOME/.mail_config/lib/pullmail.sh $HOME/bin/pullmail.sh
+ln -s $HOME/.mail_config/lib/pullmailLoop.sh $HOME/bin/pullmailLoop.sh
 
 # Print out the notes to end
 notes

@@ -1,0 +1,24 @@
+#~/.mutt/ethz
+# ethz configuration
+
+# save copies of sent emails to the ${folder}Sent directory
+# the '+' expands to $folders (like '~' to $HOME in the bash shell)
+set record = +ethz/.Sent
+set postponed = +ethz/.Drafts
+#set signature = ~/.mail_config/mutt/sig_ethz.sig
+
+# use msmtp to send outgoing mail to the mailserver
+# see ~/.msmtp for configuration
+set sendmail="/usr/bin/msmtp -a ethz"
+
+set from="pravin@inf.ethz.ch"
+
+# bcc myself to make gmail style threaded conversations
+my_hdr bcc: pravin@inf.ethz.ch
+
+# pgp settings
+#my_hdr X-PGP-Key: http://my.website.com/pubkey.asc
+#set pgp_sign_as=MY_PGP_KEY_ID
+#set pgp_autosign=yes
+
+# vim: set ft=muttrc

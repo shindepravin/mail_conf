@@ -3,7 +3,8 @@
 # https://github.com/jgoerzen/offlineimap/blob/master/offlineimap.conf
 
 metadata = ~/.offlineimap
-accounts = school, gmail
+#accounts = ethz, gmail
+accounts = ethz
 maxsyncaccounts = 2
 socktimeout = 60
 ui = Basic
@@ -20,56 +21,86 @@ filename = ~/.mail_config/mutt/muttmailboxes
 header = "mailboxes "
 
 # Exclude these mailboxes from the above mailbox list
-folderfilter = lambda accountname, foldername: not re.search('(^bak.*|.*drafts$|.*spam$|.*sent$|.*trash$)', foldername)
+folderfilter = lambda accountname, foldername: not re.search('(^bak.*|.*drafts$|.*spam$|.*sent$|.*trash$|.*Trash$|Trash$)', foldername)
 
 peritem = "+%(accountname)s/%(foldername)s"
-sep = " "
+sep = "/"
 footer = "\n"
 
-[Account school]
-localrepository = local-school
-remoterepository = remote-school
+[Account ethz]
+localrepository = local-ethz
+remoterepository = remote-ethz
 
 # Call imapfilter before syncing
-presynchook = /usr/bin/imapfilter -vc ~/.mail_config/imapfilter/school.lua
+#presynchook = /usr/bin/imapfilter -vc ~/.mail_config/imapfilter/ethz.lua
 
-[Account gmail]
-localrepository = local-gmail
-remoterepository = remote-gmail
-
-[Repository local-school]
+[Repository local-ethz]
 type = Maildir
-localfolders = ~/.mail/school
+localfolders = ~/.mail/ethz
+
+sep = .
 
 # Translate names from local names to remote names:
 # This one does:
 # 1. Capitalizes all the folder names
 # 2. Changes any underscores to spaces
 # 3. Changes Inbox -> INBOX
-nametrans = lambda foldername: re.sub('Inbox', 'INBOX',
-                               re.sub ('_', ' ', foldername.capitalize()))
+#nametrans = lambda foldername: re.sub('Inbox', 'INBOX',
+#                               re.sub ('_', ' ', foldername.capitalize()))
+nametrans = lambda folder: re.sub('\s+', '',
+                re.sub('\.', '/',
+                re.sub('^\.', '',
+                re.sub('SentItems', 'Sent Items',
+                re.sub('myinbox', 'INBOX',
+                folder)))))
 
-[Repository remote-school]
+
+
+[Repository remote-ethz]
 type = IMAP
 maxconnections = 2
-remotehost = mail.school.edu
-remoteusereval = get_username("mail.school.edu")
-remotepasseval = get_password("mail.school.edu")
+remotehost = mail.ethz.ch
+remoteusereval = get_username("mail.ethz.ch")
+remotepasseval = get_password("mail.ethz.ch")
+
+# This translates folder names such that everything (including your Inbox)
+# appears in the same folder (named root).
+nametrans = lambda folder: re.sub('\s+', '',
+                re.sub('(.+)(\\.)(.+)', '\\1_\\3',
+                re.sub('(^.{1})', '.\\1',
+                re.sub('.*Trash$', 'Trash',
+                re.sub('.*Drafts$', 'Drafts',
+                re.sub('.*Sent Mail$', 'Sent',
+                re.sub('.*Starred$', 'Starred',
+                re.sub('.*All Mail$', 'Archive',
+                re.sub('INBOX', 'myinbox', folder)
+                ))))))))
+
+
+folderfilter = lambda folder: folder not in ['Trash']
+
+
 # If using ssl, you will need to specify certificates to use with them
-ssl = yes
-sslcacertfile = /path/to/cacertfile.crt
-realdelete = yes
+#ssl = yes
+#sslcacertfile = /path/to/cacertfile.crt
+#realdelete = yes
 
 # Translate remote names to local names:
 # This one does:
 # 1. Transforms names to lowercase
 # 2. Replaces spaces with underscores
-nametrans = lambda foldername: re.sub (' ', '_', foldername.lower())
+#nametrans = lambda foldername: re.sub (' ', '_', foldername.lower())
+
+
+[Account gmail]
+localrepository = local-gmail
+remoterepository = remote-gmail
 
 [Repository local-gmail]
 type = Maildir
 localfolders = ~/.mail/gmail
 # Note the nametrans below in remote-gmail: it undoes this one
+# Translating names from local dir names into server names.
 nametrans = lambda foldername: re.sub ('Inbox', 'INBOX',
                                re.sub ('Drafts', '[Gmail].Drafts',
                                re.sub ('Sent', '[Gmail].Sent Mail',
@@ -88,6 +119,7 @@ ssl = yes
 sslcacertfile = /path/to/cacertfile.crt
 realdelete = no
 # Note the nametrans above in local-gmail: it undoes this one
+# Translating names from server names to names to used locally.
 nametrans = lambda foldername: re.sub ('^\[gmail\]\/', '',
                                re.sub ('sent_mail', 'sent',
                                re.sub ('starred', 'flagged',
