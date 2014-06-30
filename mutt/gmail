@@ -8,7 +8,7 @@ unset signature
 # see ~/.msmtp for configuration
 set sendmail="/usr/bin/msmtp -a gmail"
 
-set from="username@gmail.com"
+set from="shindepravin@gmail.com"
 
 # Thread yourself
 my_hdr bcc: username@gmail.com

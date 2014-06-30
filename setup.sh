@@ -62,6 +62,9 @@ ln -s $HOME/.mail_config/offlineimaprc $HOME/.offlineimaprc
 # msmtprc needs to be 600 permissions
 chmod 600 $HOME/.mail_config/msmtprc
 
+echo "Done"
+exit 0
+
 # binary files
 rm -rf $HOME/bin/export_x_info.sh $HOME/bin/pullmail.sh
 ln -s $HOME/.mail_config/lib/export_x_info.sh $HOME/bin/export_x_info.sh

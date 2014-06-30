@@ -21,10 +21,10 @@ filename = ~/.mail_config/mutt/muttmailboxes
 header = "mailboxes "
 
 # Exclude these mailboxes from the above mailbox list
-folderfilter = lambda accountname, foldername: not re.search('(^bak.*|.*drafts$|.*spam$|.*sent$|.*trash$|.*Trash$|Trash$)', foldername)
+folderfilter = lambda accountname, foldername: not re.search('(^bak.*|.*drafts$|.*deleted*|.*myarchive$|.*spam$|.*sent$|.*trash$|.*Trash$|Trash$)', foldername)
 
 peritem = "+%(accountname)s/%(foldername)s"
-sep = "/"
+sep = /
 footer = "\n"
 
 [Account ethz]
@@ -38,22 +38,18 @@ remoterepository = remote-ethz
 type = Maildir
 localfolders = ~/.mail/ethz
 
-sep = .
+#sep = .
+
+sep = /
 
 # Translate names from local names to remote names:
 # This one does:
 # 1. Capitalizes all the folder names
 # 2. Changes any underscores to spaces
-# 3. Changes Inbox -> INBOX
-#nametrans = lambda foldername: re.sub('Inbox', 'INBOX',
 #                               re.sub ('_', ' ', foldername.capitalize()))
 nametrans = lambda folder: re.sub('\s+', '',
-                re.sub('\.', '/',
-                re.sub('^\.', '',
-                re.sub('SentItems', 'Sent Items',
                 re.sub('myinbox', 'INBOX',
-                folder)))))
-
+                folder))
 
 
 [Repository remote-ethz]
@@ -65,31 +61,26 @@ remotepasseval = get_password("mail.ethz.ch")
 
 # This translates folder names such that everything (including your Inbox)
 # appears in the same folder (named root).
+
+#nametrans = lambda foldername: re.sub (' ', '_', foldername.lower())
+
+# This translates folder names such that everything (including your Inbox)
+# appears in the same folder (named root).
 nametrans = lambda folder: re.sub('\s+', '',
-                re.sub('(.+)(\\.)(.+)', '\\1_\\3',
-                re.sub('(^.{1})', '.\\1',
                 re.sub('.*Trash$', 'Trash',
                 re.sub('.*Drafts$', 'Drafts',
-                re.sub('.*Sent Mail$', 'Sent',
                 re.sub('.*Starred$', 'Starred',
-                re.sub('.*All Mail$', 'Archive',
-                re.sub('INBOX', 'myinbox', folder)
-                ))))))))
+                re.sub('.*All Mail$', 'Archive', folder)
+                ))))
+
+#                re.sub('(^.{1})', '.\\1',
+#                re.sub('(.+)(\\.)(.+)', '\\1_\\3',
+#                re.sub('INBOX', 'myinbox', folder)
 
 
-folderfilter = lambda folder: folder not in ['Trash']
-
-
-# If using ssl, you will need to specify certificates to use with them
-#ssl = yes
-#sslcacertfile = /path/to/cacertfile.crt
-#realdelete = yes
-
-# Translate remote names to local names:
-# This one does:
-# 1. Transforms names to lowercase
-# 2. Replaces spaces with underscores
-#nametrans = lambda foldername: re.sub (' ', '_', foldername.lower())
+#jfolderfilter = lambda folder: not re.search('(^bak.*|.*drafts$|.*deleted*|deletedItems*|DeletedItems*|myArchive*|.*spam$|.*sent$|.*trash$|.*Trash$|Trash$)', folder)
+folderfilter = lambda folder: not re.search('(Junk|Deleted|myArchive|^Trash$|SentItems|^Sent)', folder)
+#folderfilter = lambda folder: folder not in ['Trash', 'myArchive', 'DeletedItems', 'deletedItems', 'Deleted Items']
 
 
 [Account gmail]
@@ -99,6 +90,7 @@ remoterepository = remote-gmail
 [Repository local-gmail]
 type = Maildir
 localfolders = ~/.mail/gmail
+
 # Note the nametrans below in remote-gmail: it undoes this one
 # Translating names from local dir names into server names.
 nametrans = lambda foldername: re.sub ('Inbox', 'INBOX',
@@ -127,3 +119,4 @@ nametrans = lambda foldername: re.sub ('^\[gmail\]\/', '',
 
 # We don't want to sync all mail, it would pull everything again
 folderfilter = lambda foldername: foldername not in ['[Gmail]/All Mail']
+

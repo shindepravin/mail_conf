@@ -2,7 +2,7 @@
 
 set folder = ~/.mail
 source ~/.mail_config/mutt/muttmailboxes
-set spoolfile = +"ethz/.myinbox"
+set spoolfile = +"ethz/INBOX"
 
 set sort=threads
 set sort_aux=last-date-received
