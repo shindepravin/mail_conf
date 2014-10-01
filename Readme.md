@@ -1,12 +1,11 @@
 # Mail Configuration Example #
 
-This is an example of what [my mail configuration][] looks like.  It will
-probably not be especially useful to anyone without going through each file
-and customizing.  I intend this to be more of a reference than a working
-example.
+ * mutt-patched
+ * notmuch
+ * notmuch-mutt
+ * editlabel  (http://blitiri.com.ar/p/other/mutt-labels/)
+     * procmail (for formail)
 
-That said, if anyone would like to contribute ideas / corrections, you are
-welcome to submit pull requests.
 
 [my mail configuration]:http://jason.the-graham.com/2011/01/10/email_with_mutt_offlineimap_imapfilter_msmtp_archivemail/
 

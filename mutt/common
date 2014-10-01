@@ -33,10 +33,10 @@ set edit_headers          # See the headers when editing
 #======================================================#
 # Order of headers and what to show
 hdr_order Date: From: User-Agent: X-Mailer \
-          To: Cc: Reply-To: Subject:
+          To: Cc: Reply-To: Reply-To: X-Label: Subject:
 ignore *
 unignore Date: From: User-Agent: X-Mailer: X-PGP-Key:  \
-          To: Cc: Reply-To: Subject:
+          To: Cc: Reply-To: X-Label:  Subject:
 
 #======================================================#
 # Odds and Ends

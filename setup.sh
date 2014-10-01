@@ -58,6 +58,9 @@ ln -s $HOME/.mail_config/msmtprc $HOME/.msmtprc
 ln -s $HOME/.mail_config/mutt $HOME/.mutt
 ln -s $HOME/.mail_config/lbdb.rc $HOME/.lbdbrc
 ln -s $HOME/.mail_config/offlineimaprc $HOME/.offlineimaprc
+ln -s $HOME/.mail_config/bin/editlabel $HOME/bin/editlabel
+ln -s $HOME/.mail_config/labels  $HOME/.labels
+
 
 # msmtprc needs to be 600 permissions
 chmod 600 $HOME/.mail_config/msmtprc
