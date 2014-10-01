@@ -12,24 +12,11 @@ ui = Basic
 # This helper file lets you use gnome-keyring to store usernames / passwords
 pythonfile = ~/.mail_config/lib/offlineimap-helper.py
 
-[mbnames]
-# Create a list of available mailboxes for mutt
-
-enabled = yes
-
-filename = ~/.mail_config/mutt/muttmailboxes
-header = "mailboxes "
-
-# Exclude these mailboxes from the above mailbox list
-folderfilter = lambda accountname, foldername: not re.search('(^bak.*|.*drafts$|.*deleted*|.*myarchive$|.*spam$|.*sent$|.*trash$|.*Trash$|Trash$)', foldername)
-
-peritem = "+%(accountname)s/%(foldername)s"
-sep = /
-footer = "\n"
 
 [Account ethz]
 localrepository = local-ethz
 remoterepository = remote-ethz
+
 
 # Call imapfilter before syncing
 #presynchook = /usr/bin/imapfilter -vc ~/.mail_config/imapfilter/ethz.lua
@@ -79,9 +66,29 @@ nametrans = lambda folder: re.sub('\s+', '',
 
 
 #jfolderfilter = lambda folder: not re.search('(^bak.*|.*drafts$|.*deleted*|deletedItems*|DeletedItems*|myArchive*|.*spam$|.*sent$|.*trash$|.*Trash$|Trash$)', folder)
-folderfilter = lambda folder: not re.search('(Junk|Deleted|myArchive|^Trash$|SentItems|^Sent)', folder)
+folderfilter = lambda folder: not re.search('(Junk|Deleted*|myArchive|^Trash$|SentItems|^Sent)', folder)
 #folderfilter = lambda folder: folder not in ['Trash', 'myArchive', 'DeletedItems', 'deletedItems', 'Deleted Items']
+postsynchook = notmuch new
 
+[mbnames]
+# Create a list of available mailboxes for mutt
+
+enabled = yes
+
+filename = ~/.mail_config/mutt/muttmailboxes
+header = "mailboxes "
+
+# Exclude these mailboxes from the above mailbox list
+#folderfilter = lambda accountname, foldername: not re.search('(^bak.*|.*drafts$|.*deleted*|.*myarchive$|.*spam$|.*sent$|.*trash$|.*Trash$|Trash$)', foldername)
+peritem = "+%(accountname)s/%(foldername)s"
+#sep = "\\\n    "
+sep = " "
+footer = "\n"
+
+
+####################################################################
+####################################################################
+####################################################################
 
 [Account gmail]
 localrepository = local-gmail
